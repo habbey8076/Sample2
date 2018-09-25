@@ -1,0 +1,54 @@
+<!-- Fetch astronomy picture of the day from NASA API -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'>
+      <label for="main.temp">Temp:</label>
+      <input type="main.pressure"  name="appt-time"/>
+    </div>
+    
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    
+    <script type="text/babel">
+      class RestWeather extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {main: '', imgurl: ''};
+        }
+        componentDidMount() {
+          fetch('http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=5b14fa09e67c93edbc8916ef92017ff1')
+          .then((response) => response.json()) 
+          .then((responseData) => { 
+             console.log(responseData);
+              this.setState({ 
+                main: responseData.main,
+                imgurl: responseData.url 
+              }); 
+          });
+        }
+        
+        render() { 
+          return (
+            <div>
+              <div>main: {this.state.main.temp}</div>
+              <div>main: {this.state.main.humidity}</div>
+              <div>main: {this.state.main.pressure}</div>
+              <div>
+                <img src={this.state.imgurl} />
+              </div>
+            </div>
+          );
+        }
+      }
+      
+      ReactDOM.render(< RestWeather/>, document.getElementById('root'));
+    </script>
+  </body>
+</html>
